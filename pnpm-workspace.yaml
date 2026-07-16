@@ -1,0 +1,9 @@
+packages:
+  - "apps/*"
+  - "packages/*"
+
+# Native binaries these packages install at build time (workerd = local Workers runtime)
+onlyBuiltDependencies:
+  - esbuild
+  - sharp
+  - workerd

@@ -1,0 +1,26 @@
+{
+  "name": "@h2class/api",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev --port 8787",
+    "deploy": "wrangler deploy",
+    "typecheck": "tsc --noEmit",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate:local": "wrangler d1 migrations apply h2class --local",
+    "db:migrate:remote": "wrangler d1 migrations apply h2class --remote"
+  },
+  "dependencies": {
+    "@h2class/shared": "workspace:*",
+    "drizzle-orm": "^0.45.0",
+    "hono": "^4.12.0",
+    "zod": "^4.0.0"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^5.0.0",
+    "drizzle-kit": "^0.31.0",
+    "typescript": "^5.9.0",
+    "wrangler": "^4.111.0"
+  }
+}

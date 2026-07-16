@@ -1,0 +1,14 @@
+{
+  "name": "h2class",
+  "private": true,
+  "packageManager": "pnpm@10.20.0",
+  "scripts": {
+    "dev:api": "pnpm --filter @h2class/api dev",
+    "dev:agent": "pnpm --filter @h2class/agent dev",
+    "typecheck": "pnpm -r typecheck",
+    "db:migrate:local": "pnpm --filter @h2class/api db:migrate:local",
+    "db:migrate:remote": "pnpm --filter @h2class/api db:migrate:remote",
+    "deploy:api": "pnpm --filter @h2class/api deploy",
+    "deploy:agent": "pnpm --filter @h2class/agent deploy"
+  }
+}

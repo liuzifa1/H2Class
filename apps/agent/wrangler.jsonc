@@ -1,0 +1,22 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "h2class-agent",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-06-01",
+  "compatibility_flags": ["nodejs_compat"],
+  "vars": {
+    // Local dev talks to the local core worker; override per environment
+    // (production: https://api.<your-domain>).
+    "CORE_API_URL": "http://localhost:8787"
+  },
+  // Secrets (never in this file): set with `wrangler secret put <NAME>`
+  //   ANTHROPIC_API_KEY  — the agent's Claude API key
+  //   CORE_API_TOKEN     — service-account token for the core API (minted in milestone 2)
+  // Locally, copy .dev.vars.example → .dev.vars
+  //
+  // Autonomous runs (milestone 6): enable a cron trigger like
+  //   "triggers": { "crons": ["0 23 * * *"] }
+  "observability": {
+    "enabled": true
+  }
+}
