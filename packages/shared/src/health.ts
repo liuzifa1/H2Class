@@ -1,5 +1,7 @@
 import { z } from "zod";
 
+export const healthInputSchema = z.object({}).strict();
+
 export const healthResponseSchema = z.object({
   status: z.literal("ok"),
   service: z.enum(["core", "agent"]),

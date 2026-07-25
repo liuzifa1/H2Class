@@ -11,14 +11,23 @@ export const audit: MiddlewareHandler<AppEnv> = async (c, next) => {
   await next();
   if (!MUTATING.has(c.req.method) || c.res.status >= 400) return;
 
-  // Placeholder until auth (milestone 2) provides the real session actor.
-  const actor = c.req.header("x-actor") ?? "unauthenticated";
+  const actor = c.var.principal?.id;
+  if (actor === undefined) {
+    throw new Error("Successful mutation is missing its audit principal");
+  }
   const action = `${c.req.method} ${new URL(c.req.url).pathname}`;
+  const details = c.var.audit;
 
   c.executionCtx.waitUntil(
     (async () => {
       try {
-        await drizzle(c.env.DB).insert(activityLog).values({ actor, action });
+        await drizzle(c.env.DB).insert(activityLog).values({
+          actor,
+          action,
+          entity: details?.entity,
+          entityId: details?.entityId,
+          summary: details?.summary,
+        });
       } catch (err) {
         console.error("audit insert failed", err);
       }

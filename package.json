@@ -5,10 +5,19 @@
   "scripts": {
     "dev:api": "pnpm --filter @h2class/api dev",
     "dev:agent": "pnpm --filter @h2class/agent dev",
+    "dev:admin": "pnpm --filter admin dev",
+    "dev:web": "pnpm --filter web dev",
+    "build:admin": "pnpm --filter admin build",
+    "build:web": "pnpm --filter web build",
     "typecheck": "pnpm -r typecheck",
     "db:migrate:local": "pnpm --filter @h2class/api db:migrate:local",
     "db:migrate:remote": "pnpm --filter @h2class/api db:migrate:remote",
+    "db:migrate:agent:local": "pnpm --filter @h2class/agent db:migrate:local",
+    "db:migrate:agent:remote": "pnpm --filter @h2class/agent db:migrate:remote",
     "deploy:api": "pnpm --filter @h2class/api deploy",
-    "deploy:agent": "pnpm --filter @h2class/agent deploy"
+    "deploy:agent": "pnpm --filter @h2class/agent deploy",
+    "deploy:admin": "pnpm --filter admin deploy",
+    "deploy:web": "pnpm --filter web deploy",
+    "deploy:frontends": "pnpm deploy:admin && pnpm deploy:web"
   }
 }

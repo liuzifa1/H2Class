@@ -9,10 +9,13 @@
     "typecheck": "tsc --noEmit",
     "db:generate": "drizzle-kit generate",
     "db:migrate:local": "wrangler d1 migrations apply h2class --local",
-    "db:migrate:remote": "wrangler d1 migrations apply h2class --remote"
+    "db:migrate:remote": "wrangler d1 migrations apply h2class --remote",
+    "seed:admin:local": "node scripts/seed-admin.mjs",
+    "seed:admin:remote": "node scripts/seed-admin.mjs --remote"
   },
   "dependencies": {
     "@h2class/shared": "workspace:*",
+    "better-auth": "^1.6.23",
     "drizzle-orm": "^0.45.0",
     "hono": "^4.12.0",
     "zod": "^4.0.0"

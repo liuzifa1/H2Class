@@ -7,15 +7,29 @@
   "vars": {
     // Local dev talks to the local core worker; override per environment
     // (production: https://api.<your-domain>).
-    "CORE_API_URL": "http://localhost:8787"
+    "CORE_API_URL": "http://localhost:8787",
+    // Include the vendor's OpenAI-compatible API prefix, normally /v1.
+    "OPENAI_BASE_URL": "https://vendor.example/v1",
+    // Replace with the vendor model id used by headless scheduled jobs.
+    "OPENAI_MODEL": "vendor-model-id",
+    "AGENT_DISABLED": "0"
   },
   // Secrets (never in this file): set with `wrangler secret put <NAME>`
-  //   ANTHROPIC_API_KEY  — the agent's Claude API key
-  //   CORE_API_TOKEN     — service-account token for the core API (minted in milestone 2)
+  //   OPENAI_API_KEY  — API key for the selected OpenAI-compatible vendor
+  //   CORE_API_TOKEN  — service-account token for the core API
   // Locally, copy .dev.vars.example → .dev.vars
-  //
-  // Autonomous runs (milestone 6): enable a cron trigger like
-  //   "triggers": { "crons": ["0 23 * * *"] }
+  "d1_databases": [
+    {
+      "binding": "AGENT_DB",
+      "database_name": "h2class-agent",
+      "database_id": "00000000-0000-0000-0000-000000000000",
+      "migrations_dir": "migrations"
+    }
+  ],
+  "triggers": {
+    // UTC: daily 07:00 and 21:00 Asia/Shanghai; Friday 17:00.
+    "crons": ["0 23 * * *", "0 13 * * *", "0 9 * * 5"]
+  },
   "observability": {
     "enabled": true
   }

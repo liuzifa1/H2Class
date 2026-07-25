@@ -1,3 +1,4 @@
 # Copy to .dev.vars (gitignored) for local development.
-ANTHROPIC_API_KEY=sk-ant-...
-CORE_API_TOKEN=dev-placeholder-until-milestone-2
+OPENAI_API_KEY=replace-with-your-vendor-key
+CORE_API_TOKEN=replace-with-the-core-agent-service-token
+OPENAI_MODEL=replace-with-your-vendor-model-id

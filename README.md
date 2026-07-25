@@ -8,19 +8,23 @@ Class arrangement & logging system for a small K12 tutoring / trusteeship busine
 ## Layout
 
 ```
-apps/api      CORE module — database (D1), business logic, REST API (Hono + Drizzle)
-apps/agent    AGENT module — Claude loop; calls the core API like a client
-packages/shared  Zod schemas shared by core, clients, and agent tools
-apps/web, apps/admin — arrive in milestones 3–6
+apps/api         CORE module — database (D1), business logic, REST API (Hono + Drizzle)
+apps/agent       AGENT module — OpenAI-compatible loop and autonomous jobs
+apps/admin       owner/staff SPA — chat, confirmations, drafts, and people fallback
+apps/web         guardian SPA — scoped schedule, balances, attendance, and feedback
+packages/shared  Zod schemas and endpoint registry shared by every client
 ```
 
 ## Local development
 
 ```sh
 pnpm install
-pnpm db:migrate:local      # apply D1 migrations to the local database
+pnpm db:migrate:local       # apply core D1 migrations
+pnpm db:migrate:agent:local # apply agent D1 migrations
 pnpm dev:api               # core on http://localhost:8787
 pnpm dev:agent             # agent on http://localhost:8788 (separate terminal)
+pnpm dev:admin             # owner console on http://localhost:5173
+pnpm dev:web               # guardian portal on http://localhost:5174
 ```
 
 Smoke test:
@@ -28,39 +32,38 @@ Smoke test:
 ```sh
 curl http://localhost:8787/health     # core + D1 row count
 curl http://localhost:8788/health     # agent + core reachability
-curl -X POST http://localhost:8787/dev/ping   # writes an activity_log row (audit middleware)
+curl http://localhost:8787/me                 # 401 without a bearer token
 ```
 
-For local agent secrets: `cp apps/agent/.dev.vars.example apps/agent/.dev.vars` and fill in.
+Copy `apps/api/.dev.vars.example` and `apps/agent/.dev.vars.example` to
+`.dev.vars` in their respective app directories, then fill in the local-only
+secrets and the selected OpenAI-compatible vendor settings. The core trusts
+both local Vite origins automatically; production SPA origins belong in its
+comma-separated `CLIENT_ORIGINS` variable.
 
-## First deploy (one-time, needs your Cloudflare account)
+## Deployment
+
+Production uses four Workers: two code Workers (`api`, `agent`) and two
+Workers Static Assets deployments (`admin`, `web`). The backend Workers bind
+to separate D1 databases.
+
+Follow [CLOUDFLARE_HANDOFF.md](CLOUDFLARE_HANDOFF.md) for the exact split
+between Cloudflare account actions and repository configuration. The first
+operator step is:
 
 ```sh
-pnpm exec wrangler login                      # opens browser
-
-# 1. Create the production database and wire it up
-cd apps/api
-pnpm exec wrangler d1 create h2class          # prints a database_id
-#   → paste that id into apps/api/wrangler.jsonc (database_id)
-pnpm db:migrate:remote
-
-# 2. Deploy both workers
-pnpm deploy                                   # from apps/api
-cd ../agent
-pnpm exec wrangler secret put ANTHROPIC_API_KEY
-pnpm exec wrangler secret put CORE_API_TOKEN  # placeholder until milestone 2
-pnpm deploy
+pnpm --filter @h2class/api exec wrangler login
+pnpm --filter @h2class/api exec wrangler d1 create h2class
+pnpm --filter @h2class/agent exec wrangler d1 create h2class-agent
 ```
-
-Then in the Cloudflare dashboard: attach custom domains (`api.<domain>` → h2class-api, `agent.<domain>` → h2class-agent), set the agent's `CORE_API_URL` var to `https://api.<domain>`, and enable **D1 Time Travel / scheduled export** for backups — this database is the business.
 
 Workers **paid plan ($5/mo)** is expected: password hashing (milestone 2) needs more CPU than the free tier allows.
 
 ## Milestones (TECH_STACK.md §6)
 
 1. ✅ Skeleton: monorepo, both workers, D1 + migrations, audit middleware, health checks
-2. Auth (better-auth) + people module + **agent service v1** (chat + people tools)
-3. Catalog + scheduling + drafts queue + admin SPA
-4. Attendance + credit ledger + pending-actions (confirm gates)
-5. Entitlements + payments + renewal watch
-6. Reports + parent web SPA + autonomous cron runs
+2. ✅ Auth (better-auth) + people module + **agent service v1**
+3. ✅ Catalog + scheduling + drafts queue + admin SPA
+4. ✅ Attendance + credit ledger + pending-action confirmation gates
+5. ✅ Entitlements + payments + renewal watch
+6. ✅ Reports + guardian SPA + autonomous cron runs

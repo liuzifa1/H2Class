@@ -6,10 +6,14 @@
   "scripts": {
     "dev": "wrangler dev --port 8788",
     "deploy": "wrangler deploy",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "test": "pnpm run test:tool-schemas && pnpm run test:jobs",
+    "test:jobs": "node --import ./test/register-loader.mjs --test test/jobs.test.ts",
+    "test:tool-schemas": "node --import ./test/register-loader.mjs --test test/tools-schema.test.ts",
+    "db:migrate:local": "wrangler d1 migrations apply h2class-agent --local",
+    "db:migrate:remote": "wrangler d1 migrations apply h2class-agent --remote"
   },
   "dependencies": {
-    "@anthropic-ai/sdk": "^0.111.0",
     "@h2class/shared": "workspace:*",
     "hono": "^4.12.0",
     "zod": "^4.0.0"

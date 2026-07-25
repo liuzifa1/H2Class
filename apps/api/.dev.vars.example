@@ -1,0 +1,6 @@
+# Copy to .dev.vars (gitignored) for local development.
+BETTER_AUTH_SECRET=replace-with-at-least-32-random-characters
+AGENT_SERVICE_TOKEN=replace-with-an-independent-random-token
+# Production-style comma-separated SPA origins; localhost ports 5173 and 5174
+# are trusted automatically while the API itself runs locally.
+CLIENT_ORIGINS=

@@ -1,0 +1,90 @@
+{
+  "version": "7",
+  "dialect": "sqlite",
+  "entries": [
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1784191769717,
+      "tag": "0002_auth",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "6",
+      "when": 1784193337372,
+      "tag": "0003_people",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "6",
+      "when": 1784206349734,
+      "tag": "0004_catalog",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "6",
+      "when": 1784214843524,
+      "tag": "0005_scheduling_foundations",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "6",
+      "when": 1784215744048,
+      "tag": "0006_lessons_and_drafts",
+      "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "6",
+      "when": 1784217378980,
+      "tag": "0007_attendance_and_ledger",
+      "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "6",
+      "when": 1784217770804,
+      "tag": "0008_ledger_attendance_integrity",
+      "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "6",
+      "when": 1784217902323,
+      "tag": "0009_attendance_integrity",
+      "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "6",
+      "when": 1784220494821,
+      "tag": "0010_pending_actions",
+      "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "6",
+      "when": 1784220499775,
+      "tag": "0011_feedback_and_pickup",
+      "breakpoints": true
+    },
+    {
+      "idx": 12,
+      "version": "6",
+      "when": 1784222050301,
+      "tag": "0012_entitlements_and_payments",
+      "breakpoints": true
+    },
+    {
+      "idx": 13,
+      "version": "6",
+      "when": 1784223316840,
+      "tag": "0013_teacher_rates",
+      "breakpoints": true
+    }
+  ]
+}
